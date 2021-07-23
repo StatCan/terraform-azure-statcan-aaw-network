@@ -180,6 +180,17 @@ resource "azurerm_firewall_policy_rule_collection_group" "aks" {
       destination_ports     = ["80", "443"]
       protocols             = ["TCP"]
     }
+
+    rule {
+      name                  = "user-unclassified-ssh"
+      source_addresses      = azurerm_subnet.aks_user_unclassified.address_prefixes
+      # 64.254.29.209 = SEDAR / CSA Data Provider. For an SFTP pull of 
+      # non-protected SEDAR data in a live feed.
+      # Statcan DScD contact is Monica Pickard or Andres Solis Montero
+      destination_addresses = ["64.254.29.209"]
+      destination_ports     = ["22"]
+      protocols             = ["TCP"]
+    }
   }
 }
 
