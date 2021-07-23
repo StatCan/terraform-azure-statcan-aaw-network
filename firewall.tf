@@ -378,7 +378,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "daaas" {
   priority = 121
 
   network_rule_collection {
-    name     = "daaas"
+    name     = "daaas-network"
     priority = 121
     action   = "Allow"
 
