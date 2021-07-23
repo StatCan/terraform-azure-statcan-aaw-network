@@ -43,7 +43,7 @@ resource "azurerm_subnet" "aks_system" {
 
   address_prefixes = ["${local.aks_network}.0.0/18"]
 
-  service_endpoints = ["Microsoft.ContainerRegistry", "Microsoft.Storage", "Microsoft.Sql"]
+  service_endpoints = local.service_endpoints
 }
 
 resource "azurerm_subnet" "aks_user_unclassified" {
@@ -53,7 +53,7 @@ resource "azurerm_subnet" "aks_user_unclassified" {
 
   address_prefixes = ["${local.aks_network}.64.0/18"]
 
-  service_endpoints = ["Microsoft.ContainerRegistry", "Microsoft.Storage", "Microsoft.Sql"]
+  service_endpoints = local.service_endpoints
 }
 
 resource "azurerm_subnet" "aks_user_protected_b" {
@@ -63,7 +63,7 @@ resource "azurerm_subnet" "aks_user_protected_b" {
 
   address_prefixes = ["${local.aks_network}.128.0/18"]
 
-  service_endpoints = ["Microsoft.ContainerRegistry", "Microsoft.Storage", "Microsoft.Sql"]
+  service_endpoints = local.service_endpoints
 }
 
 # Associate the route table with the subnets
