@@ -377,6 +377,21 @@ resource "azurerm_firewall_policy_rule_collection_group" "daaas" {
 
   priority = 121
 
+  network_rule_collection {
+    name     = "daaas"
+    priority = 121
+    action   = "Allow"
+
+    # Open SMTP for Vetting App - DAAAS-1787
+    rule {
+      name                  = "smtp"
+      source_addresses      = azurerm_subnet.aks_system.address_prefixes
+      destination_addresses = ["*"]
+      destination_ports     = ["25"]
+      protocols             = ["TCP"]
+    }
+  }
+
   application_rule_collection {
     name     = "daaas"
     priority = 1021
