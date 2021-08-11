@@ -1,3 +1,15 @@
+output "hub_virtual_network_id" {
+  value = azurerm_virtual_network.hub.id
+}
+
+output "hub_virtual_network_name" {
+  value = azurerm_virtual_network.hub.name
+}
+
+output "hub_virtual_network_resource_group_name" {
+  value = azurerm_virtual_network.hub.resource_group_name
+}
+
 output "aks_virtual_network_id" {
   value = azurerm_virtual_network.aks.id
 }
