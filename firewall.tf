@@ -430,6 +430,29 @@ resource "azurerm_firewall_policy_rule_collection_group" "daaas" {
         type = "Https"
       }
     }
+
+    rule {
+      name              = "cran"
+      destination_fqdns = ["cran.r-project.org"]
+      source_addresses  = azurerm_subnet.aks_system.address_prefixes
+
+      protocols {
+        port = 443
+        type = "Https"
+      }
+    }
+
+    rule {
+      name              = "conda-forge"
+      destination_fqdns = ["conda.anaconda.org"]
+      source_addresses  = azurerm_subnet.aks_system.address_prefixes
+
+      protocols {
+        port = 443
+        type = "Https"
+      }
+    }
+    
   }
 }
 
