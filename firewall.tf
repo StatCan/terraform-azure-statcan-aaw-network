@@ -107,6 +107,11 @@ resource "azurerm_firewall" "firewall" {
     name                 = "ingress-kubeflow"
     public_ip_address_id = azurerm_public_ip.ingress_kubeflow.id
   }
+
+  ip_configuration {
+    name                 = "ingress-authenticated"
+    public_ip_address_id = azurerm_public_ip.ingress_authenticated.id
+  }
 }
 
 resource "azurerm_firewall_policy" "firewall" {
