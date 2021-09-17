@@ -28,6 +28,16 @@ resource "azurerm_public_ip" "ingress_kubeflow" {
   sku               = "Standard"
 }
 
+resource "azurerm_public_ip" "ingress_authenticated" {
+  name                = "${var.prefix}-pip-ingress-authenticated"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.network.name
+  tags                = var.tags
+
+  allocation_method = "Static"
+  sku               = "Standard"
+}
+
 # Register in DNS
 resource "azurerm_dns_a_record" "general" {
   name                = "*"
@@ -43,6 +53,30 @@ resource "azurerm_dns_a_record" "kubeflow" {
   resource_group_name = azurerm_dns_zone.dns.resource_group_name
   ttl                 = 300
   records             = [azurerm_public_ip.ingress_kubeflow.ip_address]
+}
+
+resource "azurerm_dns_a_record" "kubecost" {
+  name                = "kubecost"
+  zone_name           = azurerm_dns_zone.dns.name
+  resource_group_name = azurerm_dns_zone.dns.resource_group_name
+  ttl                 = 300
+  records             = [azurerm_public_ip.ingress_authenticated.ip_address]
+}
+
+resource "azurerm_dns_a_record" "prometheus" {
+  name                = "prometheus"
+  zone_name           = azurerm_dns_zone.dns.name
+  resource_group_name = azurerm_dns_zone.dns.resource_group_name
+  ttl                 = 300
+  records             = [azurerm_public_ip.ingress_authenticated.ip_address]
+}
+
+resource "azurerm_dns_a_record" "alertmanager" {
+  name                = "alertmanager"
+  zone_name           = azurerm_dns_zone.dns.name
+  resource_group_name = azurerm_dns_zone.dns.resource_group_name
+  ttl                 = 300
+  records             = [azurerm_public_ip.ingress_authenticated.ip_address]
 }
 
 # Create firewall
@@ -184,7 +218,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "aks" {
     rule {
       name                  = "user-unclassified-ssh"
       source_addresses      = azurerm_subnet.aks_user_unclassified.address_prefixes
-      # 64.254.29.209 = SEDAR / CSA Data Provider. For an SFTP pull of 
+      # 64.254.29.209 = SEDAR / CSA Data Provider. For an SFTP pull of
       # non-protected SEDAR data in a live feed.
       # Statcan DScD contact is Monica Pickard or Andres Solis Montero
       destination_addresses = ["64.254.29.209"]
@@ -452,7 +486,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "daaas" {
         type = "Https"
       }
     }
-    
+
   }
 }
 
@@ -540,6 +574,35 @@ resource "azurerm_firewall_policy_rule_collection_group" "ingress" {
         protocols           = ["TCP"]
         source_addresses    = ["*"]
         destination_address = azurerm_public_ip.ingress_kubeflow.ip_address
+        destination_ports   = ["443"]
+        translated_address  = nat_rule_collection.value
+        translated_port     = "443"
+      }
+    }
+  }
+
+  dynamic "nat_rule_collection" {
+    for_each = compact([var.ingress_authenticated_private_ip])
+    content {
+      name     = "ingress-authenticated"
+      priority = 60003
+      action   = "Dnat"
+
+      rule {
+        name                = "ingress-authenticated-http"
+        protocols           = ["TCP"]
+        source_addresses    = ["*"]
+        destination_address = azurerm_public_ip.ingress_authenticated.ip_address
+        destination_ports   = ["80"]
+        translated_address  = nat_rule_collection.value
+        translated_port     = "80"
+      }
+
+      rule {
+        name                = "ingress-authenticated-https"
+        protocols           = ["TCP"]
+        source_addresses    = ["*"]
+        destination_address = azurerm_public_ip.ingress_authenticated.ip_address
         destination_ports   = ["443"]
         translated_address  = nat_rule_collection.value
         translated_port     = "443"
