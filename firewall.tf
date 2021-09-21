@@ -439,7 +439,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "daaas" {
     # To allow Argo CD deployments to read deployment resources
     rule {
       name              = "argocd-deployment-resources"
-      destination_fqdns = ["github.com", "statcan.github.io", "bitnami.github.io"]
+      destination_fqdns = ["github.com", "statcan.github.io", "charts.bitnami.com"]
       source_addresses  = azurerm_subnet.aks_system.address_prefixes
 
       protocols {
