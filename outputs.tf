@@ -14,8 +14,12 @@ output "aks_virtual_network_id" {
   value = azurerm_virtual_network.aks.id
 }
 
-output "aks_system_address_space" {
+output "aks_address_space" {
   value = azurerm_virtual_network.aks.address_space
+}
+
+output "aks_system_address_space" {
+  value = azurerm_subnet.aks_system.address_prefixes
 }
 
 output "aks_load_balancers_subnet_id" {
