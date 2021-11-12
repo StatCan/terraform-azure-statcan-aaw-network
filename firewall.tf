@@ -221,8 +221,8 @@ resource "azurerm_firewall_policy_rule_collection_group" "aks" {
     }
 
     rule {
-      name                  = "user-unclassified-ssh"
-      source_addresses      = azurerm_subnet.aks_user_unclassified.address_prefixes
+      name             = "user-unclassified-ssh"
+      source_addresses = azurerm_subnet.aks_user_unclassified.address_prefixes
       # 64.254.29.209 = SEDAR / CSA Data Provider. For an SFTP pull of
       # non-protected SEDAR data in a live feed.
       # Statcan DScD contact is Monica Pickard or Andres Solis Montero
@@ -396,7 +396,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "docker" {
     }
 
     rule {
-      name = "elastic"
+      name              = "elastic"
       destination_fqdns = ["docker.elastic.co", "*.elastic.co", "*.docker.elastic.co"]
       source_addresses  = azurerm_subnet.aks_system.address_prefixes
 

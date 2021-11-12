@@ -1,6 +1,6 @@
 locals {
   data_network = "${var.start.first}.${var.start.second + 2}"
-  
+
   # Defines the Service Endpoints to be available on the VNets
   service_endpoints = ["Microsoft.ContainerRegistry", "Microsoft.Storage", "Microsoft.Sql", "Microsoft.KeyVault"]
 }

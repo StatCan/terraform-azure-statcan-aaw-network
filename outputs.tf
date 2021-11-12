@@ -57,3 +57,15 @@ output "dns_zone_name_servers" {
 output "firewall_policy_id" {
   value = azurerm_firewall_policy.firewall.id
 }
+
+output "firewall_route_table_name" {
+  value = azurerm_route_table.firewall.name
+}
+
+output "firewall_route_table_resource_group_name" {
+  value = azurerm_route_table.firewall.resource_group_name
+}
+
+output "firewall_route_table_id" {
+  value = azurerm_route_table.firewall.id
+}
