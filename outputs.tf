@@ -26,6 +26,10 @@ output "aks_load_balancers_subnet_name" {
   value = azurerm_subnet.aks_load_balancers.name
 }
 
+output "aks_load_balancers_address_space" {
+  value = azurerm_subnet.aks_load_balancers.address_prefixes
+}
+
 output "aks_system_subnet_id" {
   value = azurerm_subnet.aks_system.id
 }
