@@ -330,7 +330,18 @@ resource "azurerm_firewall_policy_rule_collection_group" "docker" {
 
     rule {
       name              = "docker-hub"
-      destination_fqdns = ["*.docker.io", "*.docker.com", "public.ecr.aws"]
+      destination_fqdns = ["*.docker.io", "*.docker.com"]
+      source_addresses  = azurerm_virtual_network.aks.address_space
+
+      protocols {
+        port = 443
+        type = "Https"
+      }
+    }
+
+    rule {
+      name              = "docker-ecr"
+      destination_fqdns = ["public.ecr.aws"]
       source_addresses  = azurerm_virtual_network.aks.address_space
 
       protocols {
