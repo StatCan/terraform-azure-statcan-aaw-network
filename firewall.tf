@@ -330,7 +330,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "docker" {
 
     rule {
       name              = "docker-hub"
-      destination_fqdns = ["*.docker.io", "*.docker.com"]
+      destination_fqdns = ["*.docker.io", "*.docker.com", "public.ecr.aws"]
       source_addresses  = azurerm_virtual_network.aks.address_space
 
       protocols {
@@ -374,7 +374,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "docker" {
 
     rule {
       name              = "gitlab"
-      destination_fqdns = ["registry.gitlab.com", "gitlab.com"]
+      destination_fqdns = ["registry.gitlab.com", "gitlab.com", "cdn.registry.gitlab-static.net"]
       source_addresses  = azurerm_subnet.aks_system.address_prefixes
 
       protocols {
