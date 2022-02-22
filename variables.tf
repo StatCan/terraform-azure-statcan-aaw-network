@@ -58,3 +58,8 @@ variable "ingress_authenticated_private_ip" {
   description = "Private IP of the authenticated ingress"
   default     = null
 }
+
+variable "ingress_protected_b_private_ip" {
+  description = "Private IP of the protected-b ingress"
+  default     = null
+}
