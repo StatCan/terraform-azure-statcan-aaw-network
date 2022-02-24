@@ -84,3 +84,14 @@ resource "azurerm_private_dns_a_record" "protected_b" {
   ttl                 = 300
   records             = [var.ingress_protected_b_private_ip]
 }
+
+# Can replace this once the *.protected-b cert is set up.
+resource "azurerm_private_dns_a_record" "vetting_elastic" {
+  count = var.ingress_protected_b_private_ip != null ? 1 : 0
+
+  name                = "org-ces-system-vetting-elastic"
+  zone_name           = azurerm_private_dns_zone.private_dns.name
+  resource_group_name = azurerm_private_dns_zone.private_dns.resource_group_name
+  ttl                 = 300
+  records             = [var.ingress_protected_b_private_ip]
+}
