@@ -63,6 +63,14 @@ resource "azurerm_dns_a_record" "kubecost" {
   records             = [azurerm_public_ip.ingress_authenticated.ip_address]
 }
 
+resource "azurerm_dns_a_record" "monitoring_kibana" {
+  name                = "monitoring_kibana"
+  zone_name           = azurerm_dns_zone.dns.name
+  resource_group_name = azurerm_dns_zone.dns.resource_group_name
+  ttl                 = 300
+  records             = [azurerm_public_ip.ingress_authenticated.ip_address]
+}
+
 resource "azurerm_dns_a_record" "prometheus" {
   name                = "prometheus"
   zone_name           = azurerm_dns_zone.dns.name
