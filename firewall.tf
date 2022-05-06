@@ -64,7 +64,7 @@ resource "azurerm_dns_a_record" "kubecost" {
 }
 
 resource "azurerm_dns_a_record" "monitoring_kibana" {
-  name                = "monitoring_kibana"
+  name                = "monitoring-kibana"
   zone_name           = azurerm_dns_zone.dns.name
   resource_group_name = azurerm_dns_zone.dns.resource_group_name
   ttl                 = 300
