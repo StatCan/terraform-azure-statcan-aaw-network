@@ -36,6 +36,14 @@ resource "azurerm_subnet" "aks_load_balancers" {
   address_prefixes = ["${local.aks_network}.254.0/23"]
 }
 
+resource "azurerm_subnet" "aks_cloud_main_system" {
+  name                 = "${var.prefix}-snet-aks-cloud-main-system"
+  resource_group_name  = azurerm_virtual_network.aks.resource_group_name
+  virtual_network_name = azurerm_virtual_network.aks.name
+
+  address_prefixes = ["${local.aks_network}.253.128/25"]
+}
+
 resource "azurerm_subnet" "aks_system" {
   name                 = "${var.prefix}-snet-aks-system"
   resource_group_name  = azurerm_virtual_network.aks.resource_group_name

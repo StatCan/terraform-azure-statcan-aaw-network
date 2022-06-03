@@ -34,6 +34,18 @@ output "aks_load_balancers_address_space" {
   value = azurerm_subnet.aks_load_balancers.address_prefixes
 }
 
+output "aks_cloud_main_system_subnet_id" {
+  value = azurerm_subnet.aks_cloud_main_system.id
+}
+
+output "aks_cloud_main_system_subnet_name" {
+  value = azurerm_subnet.aks_cloud_main_system.name
+}
+
+output "aks_cloud_main_system_subnet_space" {
+  value = azurerm_subnet.aks_cloud_main_system.address_prefixes
+}
+
 output "aks_system_subnet_id" {
   value = azurerm_subnet.aks_system.id
 }
