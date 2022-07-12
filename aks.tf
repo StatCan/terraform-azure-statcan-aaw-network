@@ -42,8 +42,6 @@ resource "azurerm_subnet" "aks_cloud_main_system" {
   virtual_network_name = azurerm_virtual_network.aks.name
 
   address_prefixes = ["${local.aks_network}.253.128/25"]
-
-  service_endpoints = local.service_endpoints
 }
 
 resource "azurerm_subnet" "aks_system" {
