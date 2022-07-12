@@ -80,6 +80,11 @@ resource "azurerm_subnet_route_table_association" "aks_load_balancers" {
   route_table_id = azurerm_route_table.network.id
 }
 
+resource "azurerm_subnet_route_table_association" "aks_cloud_main_system" {
+  subnet_id      = azurerm_subnet.aks_cloud_main_system.id
+  route_table_id = azurerm_route_table.network.id
+}
+
 resource "azurerm_subnet_route_table_association" "aks_system" {
   subnet_id      = azurerm_subnet.aks_system.id
   route_table_id = azurerm_route_table.network.id
