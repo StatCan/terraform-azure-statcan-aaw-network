@@ -392,6 +392,17 @@ resource "azurerm_firewall_policy_rule_collection_group" "docker" {
     }
 
     rule {
+      name              = "k8s"
+      destination_fqdns = ["registry.k8s.io"]
+      source_addresses  = concat(azurerm_subnet.aks_system.address_prefixes, azurerm_subnet.aks_user_unclassified.address_prefixes)
+
+      protocols {
+        port = 443
+        type = "Https"
+      }
+    }
+
+    rule {
       name              = "gitlab"
       destination_fqdns = ["registry.gitlab.com", "gitlab.com", "cdn.registry.gitlab-static.net"]
       source_addresses  = azurerm_subnet.aks_system.address_prefixes
