@@ -313,7 +313,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "cloud_native_platform"
 
     rule {
       name              = "azure-ratecard"
-      destination_fqdns = ["prices.azure.com", "ratecard.azure-api.net"]
+      destination_fqdns = ["prices.azure.com", "ratecard.azure-api.net", "apim-ratecard-v1.azure-api.net"]
       source_addresses  = azurerm_subnet.aks_system.address_prefixes
 
       protocols {
