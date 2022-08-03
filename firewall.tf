@@ -79,6 +79,14 @@ resource "azurerm_dns_a_record" "prometheus" {
   records             = [azurerm_public_ip.ingress_authenticated.ip_address]
 }
 
+resource "azurerm_dns_a_record" "grafana" {
+  name                = "grafana"
+  zone_name           = azurerm_dns_zone.dns.name
+  resource_group_name = azurerm_dns_zone.dns.resource_group_name
+  ttl                 = 300
+  records             = [azurerm_public_ip.ingress_authenticated.ip_address]
+}
+
 resource "azurerm_dns_a_record" "alertmanager" {
   name                = "alertmanager"
   zone_name           = azurerm_dns_zone.dns.name
