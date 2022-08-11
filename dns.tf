@@ -85,16 +85,6 @@ resource "azurerm_private_dns_a_record" "alertmanager" {
   records             = [var.ingress_authenticated_private_ip]
 }
 
-resource "azurerm_private_dns_a_record" "grafana" {
-  count = var.ingress_authenticated_private_ip != null ? 1 : 0
-
-  name                = "grafana"
-  zone_name           = azurerm_private_dns_zone.private_dns.name
-  resource_group_name = azurerm_private_dns_zone.private_dns.resource_group_name
-  ttl                 = 300
-  records             = [var.ingress_authenticated_private_ip]
-}
-
 resource "azurerm_private_dns_a_record" "protected_b" {
   count = var.ingress_protected_b_private_ip != null ? 1 : 0
 
