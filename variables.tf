@@ -63,3 +63,16 @@ variable "ingress_protected_b_private_ip" {
   description = "Private IP of the protected-b ingress"
   default     = null
 }
+
+variable "cloud_main_firewall_ip" {
+  description = "IP of cloud main firewall"
+  default     = null
+}
+
+variable "cloud_main_start" {
+  type = object({
+    first  = number
+    second = number
+  })
+  description = "Starting octect for cloud main network resources."
+}
