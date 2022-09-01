@@ -76,3 +76,8 @@ variable "cloud_main_start" {
   })
   description = "Starting octect for cloud main network resources."
 }
+
+variable "cloud_main_gitlab_ip" {
+  description = "IP of cloud main gitlab (gitlab.k8s.cloud.statcan.ca)"
+  default     = null
+}
