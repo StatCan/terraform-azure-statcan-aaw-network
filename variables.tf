@@ -69,12 +69,9 @@ variable "cloud_main_firewall_ip" {
   default     = null
 }
 
-variable "cloud_main_start" {
-  type = object({
-    first  = number
-    second = number
-  })
-  description = "Starting octect for cloud main network resources."
+variable "cloud_main_address_prefix" {
+  description = "IP prefix for cloud main addresses."
+  default     = null
 }
 
 variable "cloud_main_gitlab_https_ip" {
