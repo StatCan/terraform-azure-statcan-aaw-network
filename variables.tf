@@ -77,7 +77,12 @@ variable "cloud_main_start" {
   description = "Starting octect for cloud main network resources."
 }
 
-variable "cloud_main_gitlab_ip" {
-  description = "IP of cloud main gitlab (gitlab.k8s.cloud.statcan.ca)"
+variable "cloud_main_gitlab_https_ip" {
+  description = "IP of cloud main gitlab for https (gitlab.k8s.cloud.statcan.ca)"
+  default     = null
+}
+
+variable "cloud_main_gitlab_ssh_ip" {
+  description = "IP of cloud main gitlab for ssh (gitlab-ssh.cloud.statcan.ca)"
   default     = null
 }
