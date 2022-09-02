@@ -63,3 +63,23 @@ variable "ingress_protected_b_private_ip" {
   description = "Private IP of the protected-b ingress"
   default     = null
 }
+
+variable "cloud_main_firewall_ip" {
+  description = "IP of cloud main firewall"
+  default     = null
+}
+
+variable "cloud_main_address_prefix" {
+  description = "IP prefix for cloud main addresses."
+  default     = null
+}
+
+variable "cloud_main_gitlab_https_ip" {
+  description = "IP of cloud main gitlab for https (gitlab.k8s.cloud.statcan.ca)"
+  default     = null
+}
+
+variable "cloud_main_gitlab_ssh_ip" {
+  description = "IP of cloud main gitlab for ssh (gitlab-ssh.cloud.statcan.ca)"
+  default     = null
+}

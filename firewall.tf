@@ -551,6 +551,29 @@ resource "azurerm_firewall_policy_rule_collection_group" "legacy_aaw" {
   }
 }
 
+# Allow Access to Select Cloud Main Services
+resource "azurerm_firewall_policy_rule_collection_group" "cloud_main_system" {
+  name               = "${var.prefix}-fwprcg-cloud-main-system"
+  firewall_policy_id = azurerm_firewall_policy.firewall.id
+
+  priority = 300
+
+  application_rule_collection {
+    name     = "allow-gitlab-cloud-main"
+    priority = 1020
+    action   = "Allow"
+
+    rule {
+      name              = "cloud-main-gitlab"
+      destination_addresses = [var.cloud_main_gitlab_ssh_ip, var.cloud_main_gitlab_https_ip]
+      source_addresses  = [azurerm_subnet.aks_cloud_main_system]
+      # Users might interact with gitlab over https or ssh
+      protocols         = ["TCP"]
+      ports             = ["22", "443"]
+    }
+  }
+}
+
 # Ingress
 resource "azurerm_firewall_policy_rule_collection_group" "ingress" {
   name               = "${var.prefix}-fwprcg-ingress"

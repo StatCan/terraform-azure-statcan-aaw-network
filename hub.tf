@@ -32,6 +32,15 @@ resource "azurerm_route" "firewall_default" {
   next_hop_type       = "Internet"
 }
 
+resource "azurerm_route" "firewall_cloud_main" {
+  name                       = "${var.prefix}-route-cloud-main"
+  resource_group_name        = azurerm_resource_group.network.name
+  route_table_name           = azurerm_route_table.firewall.name
+  address_prefix             = var.cloud_main_address_prefix
+  next_hop_type              = "VirtualAppliance"
+  nextnext_hop_in_ip_address = var.cloud_main_firewall_ip
+}
+
 resource "azurerm_subnet" "hub_firewall" {
   name                 = "AzureFirewallSubnet"
   resource_group_name  = azurerm_virtual_network.hub.resource_group_name
