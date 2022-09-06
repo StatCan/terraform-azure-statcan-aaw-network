@@ -38,7 +38,7 @@ resource "azurerm_route" "firewall_cloud_main" {
   route_table_name           = azurerm_route_table.firewall.name
   address_prefix             = var.cloud_main_address_prefix
   next_hop_type              = "VirtualAppliance"
-  nextnext_hop_in_ip_address = var.cloud_main_firewall_ip
+  next_hop_in_ip_address = var.cloud_main_firewall_ip
 }
 
 resource "azurerm_subnet" "hub_firewall" {
