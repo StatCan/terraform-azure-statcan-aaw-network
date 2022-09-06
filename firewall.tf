@@ -566,7 +566,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "cloud_main_system" {
     rule {
       name                  = "cloud-main-gitlab"
       destination_addresses = [var.cloud_main_gitlab_ssh_ip, var.cloud_main_gitlab_https_ip]
-      source_addresses      = [azurerm_subnet.aks_cloud_main_system]
+      source_addresses      = azurerm_subnet.aks_cloud_main_system.address_prefixes
       # Users might interact with gitlab over https or ssh
       destination_ports     = ["22", "443"]
       protocols             = ["TCP"]
