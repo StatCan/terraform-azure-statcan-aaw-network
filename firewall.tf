@@ -556,7 +556,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "cloud_main_system" {
   name               = "${var.prefix}-fwprcg-cloud-main-system"
   firewall_policy_id = azurerm_firewall_policy.firewall.id
 
-  priority = 300
+  priority = 350
 
   network_rule_collection {
     name     = "allow-gitlab-cloud-main"
