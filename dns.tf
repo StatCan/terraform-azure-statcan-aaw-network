@@ -105,3 +105,23 @@ resource "azurerm_private_dns_a_record" "vetting_elastic" {
   ttl                 = 300
   records             = [var.ingress_protected_b_private_ip]
 }
+
+resource "azurerm_private_dns_a_record" "disclosure_vetting" {
+  count = var.ingress_protected_b_private_ip != null ? 1 : 0
+
+  name                = "org-ces-system-disclosure-vetting"
+  zone_name           = azurerm_private_dns_zone.private_dns.name
+  resource_group_name = azurerm_private_dns_zone.private_dns.resource_group_name
+  ttl                 = 300
+  records             = [var.ingress_protected_b_private_ip]
+}
+
+resource "azurerm_private_dns_a_record" "disclosure_vetting_test" {
+  count = var.ingress_protected_b_private_ip != null ? 1 : 0
+
+  name                = "org-ces-system-disclosure-vetting-test"
+  zone_name           = azurerm_private_dns_zone.private_dns.name
+  resource_group_name = azurerm_private_dns_zone.private_dns.resource_group_name
+  ttl                 = 300
+  records             = [var.ingress_protected_b_private_ip]
+}
