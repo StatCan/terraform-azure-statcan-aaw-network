@@ -106,10 +106,10 @@ resource "azurerm_private_dns_a_record" "vetting_elastic" {
   records             = [var.ingress_protected_b_private_ip]
 }
 
-resource "azurerm_private_dns_a_record" "disclosure_vetting" {
+resource "azurerm_private_dns_a_record" "disclosure_vetting_dev" {
   count = var.ingress_protected_b_private_ip != null ? 1 : 0
 
-  name                = "org-ces-system-disclosure-vetting"
+  name                = "org-ces-system-disclosure-vetting-dev"
   zone_name           = azurerm_private_dns_zone.private_dns.name
   resource_group_name = azurerm_private_dns_zone.private_dns.resource_group_name
   ttl                 = 300
