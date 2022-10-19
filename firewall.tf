@@ -391,9 +391,10 @@ resource "azurerm_firewall_policy_rule_collection_group" "docker" {
       }
     }
 
+    // Registry and its CDNs
     rule {
       name              = "k8s"
-      destination_fqdns = ["registry.k8s.io"]
+      destination_fqdns = ["registry.k8s.io", "*docker.pkg.dev"]
       source_addresses  = concat(azurerm_subnet.aks_system.address_prefixes, azurerm_subnet.aks_user_unclassified.address_prefixes)
 
       protocols {
