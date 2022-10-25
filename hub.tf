@@ -33,11 +33,11 @@ resource "azurerm_route" "firewall_default" {
 }
 
 resource "azurerm_route" "firewall_cloud_main" {
-  name                       = "${var.prefix}-route-cloud-main"
-  resource_group_name        = azurerm_resource_group.network.name
-  route_table_name           = azurerm_route_table.firewall.name
-  address_prefix             = var.cloud_main_address_prefix
-  next_hop_type              = "VirtualAppliance"
+  name                   = "${var.prefix}-route-cloud-main"
+  resource_group_name    = azurerm_resource_group.network.name
+  route_table_name       = azurerm_route_table.firewall.name
+  address_prefix         = var.cloud_main_address_prefix
+  next_hop_type          = "VirtualAppliance"
   next_hop_in_ip_address = var.cloud_main_firewall_ip
 }
 
