@@ -554,6 +554,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "legacy_aaw" {
 
 # Allow Access to Select Cloud Main Services
 resource "azurerm_firewall_policy_rule_collection_group" "cloud_main_system" {
+  count              = var.cloud_main_gitlab_ssh_ip == null || var.cloud_main_gitlab_https_ip == null ? 0 : 1
   name               = "${var.prefix}-fwprcg-cloud-main-system"
   firewall_policy_id = azurerm_firewall_policy.firewall.id
 
