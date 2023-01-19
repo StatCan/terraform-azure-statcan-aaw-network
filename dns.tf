@@ -35,6 +35,16 @@ resource "azurerm_private_dns_a_record" "general" {
   records             = [var.ingress_general_private_ip]
 }
 
+resource "azurerm_private_dns_a_record" "authenticated" {
+  count = var.ingress_authenticated_private_ip != null ? 1 : 0
+
+  name                = "*.auth"
+  zone_name           = azurerm_private_dns_zone.private_dns.name
+  resource_group_name = azurerm_private_dns_zone.private_dns.resource_group_name
+  ttl                 = 300
+  records             = [var.ingress_authenticated_private_ip]
+}
+
 resource "azurerm_private_dns_a_record" "kubeflow" {
   count = var.ingress_kubeflow_private_ip != null ? 1 : 0
 
