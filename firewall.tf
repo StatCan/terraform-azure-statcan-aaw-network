@@ -268,6 +268,17 @@ resource "azurerm_firewall_policy_rule_collection_group" "cloud_native_platform"
     action   = "Allow"
 
     rule {
+      name              = "cnp-alertmanager"
+      destination_fqdns = ["alertmanager-0.cloud.statcan.ca", "alertmanager-1.cloud.statcan.ca"]
+      source_addresses  = azurerm_subnet.aks_system.address_prefixes
+
+      protocols {
+        port = 443
+        type = "Https"
+      }
+    }
+
+    rule {
       name              = "letsencrypt"
       destination_fqdns = ["*.letsencrypt.org"]
       source_addresses  = azurerm_subnet.aks_system.address_prefixes
@@ -554,7 +565,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "legacy_aaw" {
 
 # Allow Access to Select Cloud Main Services
 resource "azurerm_firewall_policy_rule_collection_group" "cloud_main_system" {
-  count              = var.cloud_main_gitlab_ssh_ip == null || var.cloud_main_gitlab_https_ip == null ? 0 : 1
+  count              = var.cloud_main_gitlab_ssh_ip == null || var.management_cluster_https_ingress_gateway_ip == null ? 0 : 1
   name               = "${var.prefix}-fwprcg-cloud-main-system"
   firewall_policy_id = azurerm_firewall_policy.firewall.id
 
@@ -567,7 +578,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "cloud_main_system" {
 
     rule {
       name                  = "cloud-main-gitlab"
-      destination_addresses = [var.cloud_main_gitlab_ssh_ip, var.cloud_main_gitlab_https_ip]
+      destination_addresses = [var.cloud_main_gitlab_ssh_ip, var.management_cluster_https_ingress_gateway_ip]
       source_addresses      = azurerm_subnet.aks_cloud_main_system.address_prefixes
       # Users might interact with gitlab over https or ssh
       destination_ports = ["22", "443"]

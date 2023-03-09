@@ -74,8 +74,8 @@ variable "cloud_main_address_prefix" {
   default     = null
 }
 
-variable "cloud_main_gitlab_https_ip" {
-  description = "IP of cloud main gitlab for https (gitlab.k8s.cloud.statcan.ca)"
+variable "management_cluster_https_ingress_gateway_ip" {
+  description = "IP of cloud main (Management cluster) ingress gateway for HTTPs traffic."
   default     = null
 }
 
