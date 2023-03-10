@@ -262,21 +262,24 @@ resource "azurerm_firewall_policy_rule_collection_group" "cloud_native_platform"
     }
   }
 
+  network_rule_collection {
+    name     = "cns-platform-components"
+    priority = 120
+    action   = "Allow"
+
+    rule {
+      name                  = "cnp-alertmanager"
+      source_addresses      = azurerm_subnet.aks_system.address_prefixes
+      destination_addresses = [var.management_cluster_https_ingress_gateway_ip]
+      destination_ports     = ["443"]
+      protocols             = ["TCP"]
+    }
+  }
+
   application_rule_collection {
     name     = "cloud-native-platform"
     priority = 1010
     action   = "Allow"
-
-    rule {
-      name              = "cnp-alertmanager"
-      destination_fqdns = ["alertmanager-0.cloud.statcan.ca", "alertmanager-1.cloud.statcan.ca"]
-      source_addresses  = azurerm_subnet.aks_system.address_prefixes
-
-      protocols {
-        port = 443
-        type = "Https"
-      }
-    }
 
     rule {
       name              = "letsencrypt"
