@@ -65,6 +65,7 @@ variable "ingress_protected_b_private_ip" {
 }
 
 variable "ingress_allowed_sources" {
+  type        = list(string)
   description = "Source IPs which are allowed to connect to the ingress gateway"
   default     = ["*"]
 }
