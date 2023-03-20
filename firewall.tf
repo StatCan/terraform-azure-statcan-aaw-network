@@ -607,7 +607,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "ingress" {
       rule {
         name                = "ingress-general-http"
         protocols           = ["TCP"]
-        source_addresses    = ["*"]
+        source_addresses    = var.ingress_allowed_sources
         destination_address = azurerm_public_ip.ingress_general.ip_address
         destination_ports   = ["80"]
         translated_address  = nat_rule_collection.value
@@ -617,7 +617,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "ingress" {
       rule {
         name                = "ingress-general-https"
         protocols           = ["TCP"]
-        source_addresses    = ["*"]
+        source_addresses    = var.ingress_allowed_sources
         destination_address = azurerm_public_ip.ingress_general.ip_address
         destination_ports   = ["443"]
         translated_address  = nat_rule_collection.value
@@ -636,7 +636,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "ingress" {
       rule {
         name                = "ingress-kubeflow-http"
         protocols           = ["TCP"]
-        source_addresses    = ["*"]
+        source_addresses    = var.ingress_allowed_sources
         destination_address = azurerm_public_ip.ingress_kubeflow.ip_address
         destination_ports   = ["80"]
         translated_address  = nat_rule_collection.value
@@ -646,7 +646,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "ingress" {
       rule {
         name                = "ingress-kubeflow-https"
         protocols           = ["TCP"]
-        source_addresses    = ["*"]
+        source_addresses    = var.ingress_allowed_sources
         destination_address = azurerm_public_ip.ingress_kubeflow.ip_address
         destination_ports   = ["443"]
         translated_address  = nat_rule_collection.value
@@ -665,7 +665,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "ingress" {
       rule {
         name                = "ingress-authenticated-http"
         protocols           = ["TCP"]
-        source_addresses    = ["*"]
+        source_addresses    = var.ingress_allowed_sources
         destination_address = azurerm_public_ip.ingress_authenticated.ip_address
         destination_ports   = ["80"]
         translated_address  = nat_rule_collection.value
@@ -675,7 +675,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "ingress" {
       rule {
         name                = "ingress-authenticated-https"
         protocols           = ["TCP"]
-        source_addresses    = ["*"]
+        source_addresses    = var.ingress_allowed_sources
         destination_address = azurerm_public_ip.ingress_authenticated.ip_address
         destination_ports   = ["443"]
         translated_address  = nat_rule_collection.value
