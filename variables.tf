@@ -64,6 +64,11 @@ variable "ingress_protected_b_private_ip" {
   default     = null
 }
 
+variable "ingress_allowed_sources" {
+  description = "Source IPs which are allowed to connect to the ingress gateway"
+  default     = ["*"]
+}
+
 variable "cloud_main_firewall_ip" {
   description = "IP of cloud main firewall"
   default     = null
