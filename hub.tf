@@ -22,6 +22,10 @@ resource "azurerm_route_table" "firewall" {
   resource_group_name = azurerm_resource_group.network.name
   location            = var.location
   tags                = var.tags
+
+  # Disable BGP route propagation so that we don't
+  # learn the routes of on-prem resources.
+  disable_bgp_route_propagation = true
 }
 
 resource "azurerm_route" "firewall_default" {
