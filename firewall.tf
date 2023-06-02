@@ -450,6 +450,17 @@ resource "azurerm_firewall_policy_rule_collection_group" "docker" {
         type = "Https"
       }
     }
+
+    rule {
+      name              = "ghcr"
+      destination_fqdns = ["ghcr.io"]
+      source_addresses  = azurerm_subnet.aks_system.address_prefixes
+
+      protocols {
+        port = 443
+        type = "Https"
+      }
+    }
   }
 }
 
