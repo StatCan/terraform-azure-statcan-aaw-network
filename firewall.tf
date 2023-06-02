@@ -453,7 +453,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "docker" {
 
     rule {
       name              = "ghcr"
-      destination_fqdns = ["ghcr.io"]
+      destination_fqdns = ["ghcr.io", "pkg-containers.githubusercontent.com"]
       source_addresses  = azurerm_subnet.aks_system.address_prefixes
 
       protocols {
