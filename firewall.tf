@@ -132,6 +132,14 @@ resource "azurerm_firewall_policy" "firewall" {
   # we have to lowercase all tags on the firewall policy
   tags = zipmap([for k in keys(var.tags) : lower(k)], values(var.tags))
 
+  # Because of the above issue, changes to the upercase SSC_CBRID must be ignored
+  # so that Terraform does not attempt to reconcile by removing this tag that it cannot add
+  lifecycle {
+    ignore_changes = [
+      tags["SSC_CBRID"]
+    ]
+  }
+
   threat_intelligence_mode = "Deny"
 
   # Enable DNS proxying
