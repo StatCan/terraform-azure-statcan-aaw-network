@@ -130,9 +130,10 @@ resource "azurerm_firewall_policy" "firewall" {
   # Until this issue is resolved:
   # https://github.com/terraform-providers/terraform-provider-azurerm/issues/9620
   # we have to lowercase all tags on the firewall policy
-  tags = zipmap([for k in keys(var.tags) : lower(k)], values(var.tags))
+  # and exclude SSC_CBRID, which is added outside of Terraform by an Azure Policy, and must exist only in uppercase
+  tags = { for k, v in var.tags : lower(k) => v if k != "SSC_CBRID" }
 
-  # Because of the above issue, changes to the upercase SSC_CBRID must be ignored
+  # Because of the above issue, changes to the uppercase SSC_CBRID must be ignored
   # so that Terraform does not attempt to reconcile by removing this tag that it cannot add
   lifecycle {
     ignore_changes = [
