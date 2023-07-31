@@ -6,6 +6,8 @@ resource "azurerm_public_ip" "firewall" {
 
   allocation_method = "Static"
   sku               = "Standard"
+
+  zones = var.availability_zones
 }
 
 resource "azurerm_public_ip" "ingress_general" {
@@ -16,6 +18,8 @@ resource "azurerm_public_ip" "ingress_general" {
 
   allocation_method = "Static"
   sku               = "Standard"
+
+  zones = var.availability_zones
 }
 
 resource "azurerm_public_ip" "ingress_kubeflow" {
@@ -26,6 +30,8 @@ resource "azurerm_public_ip" "ingress_kubeflow" {
 
   allocation_method = "Static"
   sku               = "Standard"
+
+  zones = var.availability_zones
 }
 
 resource "azurerm_public_ip" "ingress_authenticated" {
@@ -36,6 +42,8 @@ resource "azurerm_public_ip" "ingress_authenticated" {
 
   allocation_method = "Static"
   sku               = "Standard"
+
+  zones = var.availability_zones
 }
 
 # Register in DNS

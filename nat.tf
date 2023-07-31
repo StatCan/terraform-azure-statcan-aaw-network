@@ -6,6 +6,8 @@ resource "azurerm_public_ip" "egress" {
 
   allocation_method = "Static"
   sku               = "Standard"
+
+  zones = var.availability_zones
 }
 
 resource "azurerm_nat_gateway" "nat_gateway" {
