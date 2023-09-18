@@ -2,7 +2,7 @@ resource "azurerm_public_ip" "firewall" {
   name                = "${var.prefix}-pip-firewall"
   location            = var.location
   resource_group_name = azurerm_resource_group.network.name
-  tags                = var.tags
+  tags                = local.tags
 
   allocation_method = "Static"
   sku               = "Standard"
@@ -14,7 +14,7 @@ resource "azurerm_public_ip" "ingress_general" {
   name                = "${var.prefix}-pip-ingress-general"
   location            = var.location
   resource_group_name = azurerm_resource_group.network.name
-  tags                = var.tags
+  tags                = local.tags
 
   allocation_method = "Static"
   sku               = "Standard"
@@ -26,7 +26,7 @@ resource "azurerm_public_ip" "ingress_kubeflow" {
   name                = "${var.prefix}-pip-ingress-kubeflow"
   location            = var.location
   resource_group_name = azurerm_resource_group.network.name
-  tags                = var.tags
+  tags                = local.tags
 
   allocation_method = "Static"
   sku               = "Standard"
@@ -38,7 +38,7 @@ resource "azurerm_public_ip" "ingress_authenticated" {
   name                = "${var.prefix}-pip-ingress-authenticated"
   location            = var.location
   resource_group_name = azurerm_resource_group.network.name
-  tags                = var.tags
+  tags                = local.tags
 
   allocation_method = "Static"
   sku               = "Standard"
@@ -100,7 +100,7 @@ resource "azurerm_firewall" "firewall" {
   name                = "${var.prefix}-fw"
   location            = var.location
   resource_group_name = azurerm_resource_group.network.name
-  tags                = var.tags
+  tags                = local.tags
   zones               = var.availability_zones
 
   sku_name = "AZFW_VNet"
@@ -139,7 +139,7 @@ resource "azurerm_firewall_policy" "firewall" {
   # https://github.com/terraform-providers/terraform-provider-azurerm/issues/9620
   # we have to lowercase all tags on the firewall policy
   # and exclude SSC_CBRID, which is added outside of Terraform by an Azure Policy, and must exist only in uppercase
-  tags = { for k, v in var.tags : lower(k) => v if k != "SSC_CBRID" }
+  tags = { for k, v in local.tags : lower(k) => v if k != "SSC_CBRID" }
 
   # Because of the above issue, changes to the uppercase SSC_CBRID must be ignored
   # so that Terraform does not attempt to reconcile by removing this tag that it cannot add

@@ -6,7 +6,7 @@ resource "azurerm_virtual_network" "aks" {
   name                = "${var.prefix}-vnet-aks"
   resource_group_name = azurerm_resource_group.network.name
   location            = var.location
-  tags                = var.tags
+  tags                = local.tags
 
   address_space = ["${local.aks_network}.0.0/16"]
   dns_servers   = [azurerm_firewall.firewall.ip_configuration[0].private_ip_address]

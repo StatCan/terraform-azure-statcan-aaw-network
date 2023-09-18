@@ -1,7 +1,7 @@
 resource "azurerm_resource_group" "network" {
   name     = "${var.prefix}-rg-network"
   location = var.location
-  tags     = var.tags
+  tags     = local.tags
 }
 
 # Generate a route table
@@ -9,7 +9,7 @@ resource "azurerm_route_table" "network" {
   name                = "${var.prefix}-rt"
   resource_group_name = azurerm_resource_group.network.name
   location            = var.location
-  tags                = var.tags
+  tags                = local.tags
 }
 
 resource "azurerm_route" "network_default" {

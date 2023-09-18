@@ -2,7 +2,7 @@ resource "azurerm_public_ip" "egress" {
   name                = "${var.prefix}-pip-egress"
   location            = var.location
   resource_group_name = azurerm_resource_group.network.name
-  tags                = var.tags
+  tags                = local.tags
 
   allocation_method = "Static"
   sku               = "Standard"
@@ -16,7 +16,7 @@ resource "azurerm_nat_gateway" "nat_gateway" {
   resource_group_name     = azurerm_resource_group.network.name
   sku_name                = "Standard"
   idle_timeout_in_minutes = 10
-  tags                    = var.tags
+  tags                    = local.tags
 }
 
 resource "azurerm_nat_gateway_public_ip_association" "nat_gateway_egress" {
