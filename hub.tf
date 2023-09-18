@@ -6,7 +6,7 @@ resource "azurerm_virtual_network" "hub" {
   name                = "${var.prefix}-vnet-hub"
   resource_group_name = azurerm_resource_group.network.name
   location            = var.location
-  tags                = var.tags
+  tags                = local.tags
 
   address_space = ["${local.hub_network}.0.0/16"]
 
@@ -21,7 +21,7 @@ resource "azurerm_route_table" "firewall" {
   name                = "${var.prefix}-rt-firewall"
   resource_group_name = azurerm_resource_group.network.name
   location            = var.location
-  tags                = var.tags
+  tags                = local.tags
 
   # Disable BGP route propagation so that we don't
   # learn the routes of on-prem resources.

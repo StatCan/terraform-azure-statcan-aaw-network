@@ -2,7 +2,7 @@ resource "azurerm_network_security_group" "aks_system" {
   name                = "${var.prefix}-nsg-aks-system"
   resource_group_name = azurerm_resource_group.network.name
   location            = var.location
-  tags                = var.tags
+  tags                = local.tags
 }
 
 resource "azurerm_subnet_network_security_group_association" "aks_system" {
@@ -15,7 +15,7 @@ resource "azurerm_network_security_group" "aks_user_unclassified" {
   name                = "${var.prefix}-nsg-aks-user-unclassified"
   resource_group_name = azurerm_resource_group.network.name
   location            = var.location
-  tags                = var.tags
+  tags                = local.tags
 }
 
 resource "azurerm_subnet_network_security_group_association" "aks_user_unclassified" {
@@ -55,7 +55,7 @@ resource "azurerm_network_security_group" "data_unclassified" {
   name                = "${var.prefix}-nsg-data-unclassified"
   resource_group_name = azurerm_resource_group.network.name
   location            = var.location
-  tags                = var.tags
+  tags                = local.tags
 }
 
 resource "azurerm_subnet_network_security_group_association" "data_unclassified" {
@@ -96,7 +96,7 @@ resource "azurerm_network_security_group" "aks_user_protected_b" {
   name                = "${var.prefix}-nsg-aks-user-protected-b"
   resource_group_name = azurerm_resource_group.network.name
   location            = var.location
-  tags                = var.tags
+  tags                = local.tags
 }
 
 resource "azurerm_subnet_network_security_group_association" "aks_user_protected_b" {
@@ -136,7 +136,7 @@ resource "azurerm_network_security_group" "data_protected_b" {
   name                = "${var.prefix}-nsg-data-protected-b"
   resource_group_name = azurerm_resource_group.network.name
   location            = var.location
-  tags                = var.tags
+  tags                = local.tags
 }
 
 resource "azurerm_subnet_network_security_group_association" "data_protected_b" {
