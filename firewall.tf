@@ -255,6 +255,21 @@ resource "azurerm_firewall_policy_rule_collection_group" "aks" {
       destination_ports     = ["22"]
       protocols             = ["TCP"]
     }
+  }
+}
+
+# Allow Access to GAE
+resource "azurerm_firewall_policy_rule_collection_group" "gae" {
+  count              = var.geo_database_ip == null ? 0 : 1
+  name               = "${var.prefix}-fwprcg-gae"
+  firewall_policy_id = azurerm_firewall_policy.firewall.id
+
+  priority = 130
+
+  network_rule_collection {
+    name     = "allow-gae"
+    priority = 1030
+    action   = "Allow"
 
     rule {
       # SRM: 03031389
