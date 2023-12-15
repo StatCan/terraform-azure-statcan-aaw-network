@@ -255,6 +255,24 @@ resource "azurerm_firewall_policy_rule_collection_group" "aks" {
       destination_ports     = ["22"]
       protocols             = ["TCP"]
     }
+
+    rule {
+      # SRM: 03031389
+      name                  = "user-unclassified-gae"
+      source_addresses      = azurerm_subnet.aks_user_unclassified.address_prefixes
+      destination_addresses = [var.geo_database_ip]
+      destination_ports     = ["5432"]
+      protocols             = ["TCP"]
+    }
+
+    rule {
+      # SRM: 03031389
+      name                  = "user-protected-b-gae"
+      source_addresses      = azurerm_subnet.aks_user_protected_b.address_prefixes
+      destination_addresses = [var.geo_database_ip]
+      destination_ports     = ["5432"]
+      protocols             = ["TCP"]
+    }
   }
 }
 
