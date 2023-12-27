@@ -64,6 +64,11 @@ variable "ingress_protected_b_private_ip" {
   default     = null
 }
 
+variable "ingress_geoanalytics_private_ip" {
+  description = "Private IP of the geoanalytics ingress"
+  default     = null
+}
+
 variable "ingress_allowed_sources" {
   type        = list(string)
   description = "Source IPs which are allowed to connect to the ingress gateway"
