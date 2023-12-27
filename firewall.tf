@@ -46,6 +46,18 @@ resource "azurerm_public_ip" "ingress_authenticated" {
   zones = var.availability_zones
 }
 
+resource "azurerm_public_ip" "ingress_geoanalytics" {
+  name                = "${var.prefix}-pip-ingress-geoanalytics"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.network.name
+  tags                = local.tags
+
+  allocation_method = "Static"
+  sku               = "Standard"
+
+  zones = var.availability_zones
+}
+
 # Register in DNS
 resource "azurerm_dns_a_record" "general" {
   name                = "*"
@@ -95,6 +107,14 @@ resource "azurerm_dns_a_record" "alertmanager" {
   records             = [azurerm_public_ip.ingress_authenticated.ip_address]
 }
 
+resource "azurerm_dns_a_record" "geoanalytics" {
+  name                = "geoanalytics"
+  zone_name           = azurerm_dns_zone.dns.name
+  resource_group_name = azurerm_dns_zone.dns.resource_group_name
+  ttl                 = 300
+  records             = [azurerm_public_ip.ingress_geoanalytics.ip_address]
+}
+
 # Create firewall
 resource "azurerm_firewall" "firewall" {
   name                = "${var.prefix}-fw"
@@ -127,6 +147,11 @@ resource "azurerm_firewall" "firewall" {
   ip_configuration {
     name                 = "ingress-authenticated"
     public_ip_address_id = azurerm_public_ip.ingress_authenticated.id
+  }
+
+  ip_configuration {
+    name                 = "ingress-geoanalytics"
+    public_ip_address_id = azurerm_public_ip.ingress_geoanalytics.id
   }
 }
 
@@ -738,6 +763,35 @@ resource "azurerm_firewall_policy_rule_collection_group" "ingress" {
         protocols           = ["TCP"]
         source_addresses    = var.ingress_allowed_sources
         destination_address = azurerm_public_ip.ingress_authenticated.ip_address
+        destination_ports   = ["443"]
+        translated_address  = nat_rule_collection.value
+        translated_port     = "443"
+      }
+    }
+  }
+
+  dynamic "nat_rule_collection" {
+    for_each = compact([var.ingress_geoanalytics_private_ip])
+    content {
+      name     = "ingress-geoanalytics"
+      priority = 60004
+      action   = "Dnat"
+
+      rule {
+        name                = "ingress-geoanalytics-http"
+        protocols           = ["TCP"]
+        source_addresses    = var.ingress_allowed_sources
+        destination_address = azurerm_public_ip.ingress_geoanalytics.ip_address
+        destination_ports   = ["80"]
+        translated_address  = nat_rule_collection.value
+        translated_port     = "80"
+      }
+
+      rule {
+        name                = "ingress-geoanalytics-https"
+        protocols           = ["TCP"]
+        source_addresses    = var.ingress_allowed_sources
+        destination_address = azurerm_public_ip.ingress_geoanalytics.ip_address
         destination_ports   = ["443"]
         translated_address  = nat_rule_collection.value
         translated_port     = "443"
