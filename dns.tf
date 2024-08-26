@@ -135,3 +135,12 @@ resource "azurerm_private_dns_a_record" "geoanalytics" {
   ttl                 = 300
   records             = [var.ingress_geoanalytics_private_ip]
 }
+
+resource "azurerm_private_dns_a_record" "jfrog_artifactory" {
+  count               = var.ingress_jfrog_private_ip != null ? 1 : 0
+  name                = "jfrog-artifactory"
+  zone_name           = azurerm_private_dns_zone.private_dns.name
+  resource_group_name = azurerm_private_dns_zone.private_dns.resource_group_name
+  ttl                 = 300
+  records             = [var.ingress_jfrog_private_ip]
+}
