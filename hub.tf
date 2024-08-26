@@ -25,7 +25,7 @@ resource "azurerm_route_table" "firewall" {
 
   # Disable BGP route propagation so that we don't
   # learn the routes of on-prem resources.
-  bgp_route_propagation_enabled = false
+  disable_bgp_route_propagation = true
 }
 
 resource "azurerm_route" "firewall_default" {
