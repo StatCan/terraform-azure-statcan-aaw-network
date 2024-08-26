@@ -798,4 +798,33 @@ resource "azurerm_firewall_policy_rule_collection_group" "ingress" {
       }
     }
   }
+  # https://github.com/StatCan/aaw-private/issues/184
+  dynamic "nat_rule_collection" {
+    for_each = compact([var.ingress_jfrog_private_ip])
+    content {
+      name     = "ingress-vrs-jfrog"
+      priority = 60005
+      action   = "Dnat"
+
+      rule {
+        name                = "ingress-vrs-jfrog-http"
+        protocols           = ["TCP"]
+        source_addresses    = var.ingress_allowed_sources
+        destination_address = var.ingress_jfrog_private_ip
+        destination_ports   = ["80"]
+        translated_address  = nat_rule_collection.value
+        translated_port     = "80"
+      }
+
+      rule {
+        name                = "ingress-vrs-jfrog-https"
+        protocols           = ["TCP"]
+        source_addresses    = var.ingress_allowed_sources
+        destination_address = var.ingress_jfrog_private_ip
+        destination_ports   = ["443"]
+        translated_address  = nat_rule_collection.value
+        translated_port     = "443"
+      }
+    }
+  }
 }
