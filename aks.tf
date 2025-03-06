@@ -76,6 +76,16 @@ resource "azurerm_subnet" "aks_user_protected_b" {
   service_endpoints = local.service_endpoints
 }
 
+resource "azurerm_subnet" "aks_postgres_flex" {
+  name                 = "${var.prefix}-snet-aks-postgresql-flex"
+  resource_group_name  = azurerm_virtual_network.aks.resource_group_name
+  virtual_network_name = azurerm_virtual_network.aks.name
+
+  address_prefixes = ["${local.aks_network}.253.0/25"]
+
+  service_endpoints = local.service_endpoints
+}
+
 # Associate the route table with the subnets
 resource "azurerm_subnet_route_table_association" "aks_load_balancers" {
   subnet_id      = azurerm_subnet.aks_load_balancers.id
@@ -99,5 +109,10 @@ resource "azurerm_subnet_route_table_association" "aks_user_unclassified" {
 
 resource "azurerm_subnet_route_table_association" "aks_user_protected_b" {
   subnet_id      = azurerm_subnet.aks_user_protected_b.id
+  route_table_id = azurerm_route_table.network.id
+}
+
+resource "azurerm_subnet_route_table_association" "aks_postgres_flex" {
+  subnet_id      = azurerm_subnet.aks_postgres_flex.id
   route_table_id = azurerm_route_table.network.id
 }
